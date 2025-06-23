@@ -27548,7 +27548,7 @@ var $async$wK=A.F(function(c,d){if(c===1)return A.G(d,r)
 while(true)switch(s){case 0:s=3
 return A.N(A.lI(),$async$wK)
 case 3:n=d
-m=A.eu("https://raflesia.telegram.api.thaumazein.my.id/chats/create/")
+m=A.eu("https://raflesia.telegram.api.thaumazein.my.id/chats/createChat")
 l=t.N
 k=A.j(["Content-Type","application/json"],l,l)
 n.toString
