@@ -21,16 +21,11 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'admin',
             'email' => 'admin@gmail.com',
-            'hp' => '08123456789',
-            'password' => Hash::make('admin'),
+            'hp' => '085387419553',
+            'password' => Hash::make('123'),
         ]);
 
-        User::factory()->create([
-            'name' => 'user',
-            'email' => 'user@gmail.com',
-            'hp' => '081344968521',
-            'password' => Hash::make('user'),
-        ]);
+
 
         $this->call([
             ChatSeeder::class,

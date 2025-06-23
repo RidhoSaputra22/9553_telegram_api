@@ -20,7 +20,7 @@ class ChatMemberFactory extends Factory
     {
         return [
             //
-            'user_id' => User::all()->pluck('id')->random(),
+            'user_id' => 1,
             'chat_id' => Chat::all()->pluck('id')->random(),
         ];
     }
