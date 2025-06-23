@@ -10,7 +10,7 @@ Route::get('/', function () {
 
 
 Route::get('chats/{userId}', [App\Http\Controllers\ChatController::class, 'index']);
-Route::post('chats/create/', [App\Http\Controllers\ChatController::class, 'create']);
+Route::post('chats/createChat/', [App\Http\Controllers\ChatController::class, 'create']);
 Route::post('chats/', [App\Http\Controllers\ChatController::class, 'store']);
 
 
