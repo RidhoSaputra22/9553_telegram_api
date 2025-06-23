@@ -6,7 +6,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::apiResource('chats', App\Http\Controllers\ChatController::class);
 
 
 Route::get('chats/{userId}', [App\Http\Controllers\ChatController::class, 'index']);
