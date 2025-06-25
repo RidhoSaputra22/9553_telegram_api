@@ -99,6 +99,7 @@ class ChatSeeder extends Seeder
                 'subtitle' => $chat['subtitle'],
                 'time' => $chat['time'],
                 'avatarUrl' => $chat['avatarUrl'] . $index + 1 . '.jpg',
+                'is_group' => 1
             ]);
             foreach ($chat['message'] ?? [] as $message) {
                 Message::create([

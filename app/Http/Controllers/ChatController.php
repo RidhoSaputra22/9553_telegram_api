@@ -18,18 +18,44 @@ class ChatController extends Controller
      */
     public function index($userId)
     {
+        $chatMembers = ChatMember::with(['chat.messages', 'chat.chatMembers.user'])
+            ->where('user_id', $userId)
+            ->get();
 
-        $chatMembers = ChatMember::with(['chat', 'chat.messages'])->where('user_id', $userId)->get();
-        $chat = [];
+        $chats = [];
 
         foreach ($chatMembers as $chatMember) {
-            $chat[] = $chatMember->chat;
+            $chat = $chatMember->chat;
+
+            // Append members to the chat
+            $chatData = [
+                'id' => $chat->id,
+                'name' => $chat->name,
+                'is_group' => $chat->is_group,
+                'messages' => $chat->messages->map(function ($message) {
+                    return [
+                        'id' => $message->id,
+                        'user_id' => $message->user_id,
+                        'chat_id' => $message->chat_id,
+                        'content' => $message->content,
+                        'time' => $message->time,
+                        'photo' => $message->photo,
+                    ];
+                }),
+                'members' => $chat->chatMembers->map(function ($member) {
+                    return [
+                        'id' => $member->user->id,
+                        'name' => $member->user->name,
+                    ];
+                }),
+            ];
+
+            $chats[] = $chatData;
         }
 
-
-
-        return response()->json($chat);
+        return response()->json($chats);
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -38,7 +64,6 @@ class ChatController extends Controller
     {
         //
         $valodator = Validator::make($request->all(), [
-            'name' => 'required',
             'user_id' => 'required',
             'phone' => 'required',
         ]);
@@ -56,8 +81,29 @@ class ChatController extends Controller
             ]);
         }
 
+        if ($receiver->id === $request->user_id) {
+            return response()->json([
+                'message' => 'You cannot create a chat with yourself',
+                'status' => 400
+            ]);
+        }
+
+        $chat = Chat::whereHas('chatMembers', function ($query) use ($request) {
+            $query->where('user_id', $request->user_id);
+        })->whereHas('chatMembers', function ($query) use ($receiver) {
+            $query->where('user_id', $receiver->id);
+        })->first();
+
+        if ($chat) {
+            return response()->json([
+                'message' => 'Chat already exists',
+                'chat' => $chat,
+                'status' => 200,
+            ]);
+        }
+
         $chat = Chat::create([
-            'name' => $request->name,
+            'name' => '',
             'subtitle' => '',
             'time' => '',
             'photo' => '',

@@ -14,7 +14,8 @@ class Chat extends Model
         'name',
         'subtitle',
         'time',
-        'avatarUrl'
+        'avatarUrl',
+        'is_group'
 
     ];
 

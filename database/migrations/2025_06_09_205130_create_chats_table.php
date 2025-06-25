@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('subtitle');
             $table->string('time');
+            $table->boolean('is_group')->nullable();
             $table->string('avatarUrl')->nullable();
-
             $table->timestamps();
         });
     }
